@@ -16,7 +16,7 @@ tags:
     description: Operações relacionadas a partidas
 
 paths:
-  /setup:
+  /api/v1/setup:
     get:
       tags:
         - Setup
@@ -27,7 +27,7 @@ paths:
         "500":
           description: Erro ao executar o setup
 
-  /players:
+  /api/v1/players:
     get:
       tags:
         - Players
@@ -59,7 +59,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Player"
 
-  /players/{id}:
+  /api/v1/players/{id}:
     get:
       tags:
         - Players
@@ -133,7 +133,7 @@ paths:
         "204":
           description: Jogador removido
 
-  /matches:
+  /api/v1/matches:
     get:
       tags:
         - Matches
@@ -161,7 +161,7 @@ paths:
         "201":
           description: Partida criada
 
-  /matches/{id}:
+  /api/v1/matches/{id}:
     get:
       tags:
         - Matches

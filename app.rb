@@ -20,11 +20,11 @@ before do
   content_type :json
 end
 
-get '/docs' do
+get '/api/v1/docs' do
   redirect to('/docs/index.html')
 end
 
-get '/swagger.yaml' do
+get '/api/v1/swagger.yaml' do
   content_type 'application/yaml'
   File.read('swagger.yaml')
 end

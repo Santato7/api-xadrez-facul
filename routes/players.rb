@@ -1,17 +1,17 @@
 require 'json'
 require_relative '../models/player'
 
-get '/players' do
+get '/api/v1/players' do
   Player.all.to_json
 end
 
-get '/players/:id' do
+get '/api/v1/players/:id' do
   player = Player.find(params[:id].to_i)
   halt 404, { error: 'Player not found' }.to_json unless player
   player.to_json
 end
 
-post '/players' do
+post '/api/v1/players' do
   begin
     data = JSON.parse(request.body.read, symbolize_names: true)
     player = Player.create(data)
@@ -26,7 +26,7 @@ post '/players' do
   end
 end
 
-put '/players/:id' do
+put '/api/v1/players/:id' do
   data = JSON.parse(request.body.read, symbolize_names: true)
 
   player = Player.update(params[:id].to_i, data)
@@ -37,7 +37,7 @@ put '/players/:id' do
   { success: true }.to_json
 end
 
-patch '/players/:id' do
+patch '/api/v1/players/:id' do
   data = JSON.parse(request.body.read, symbolize_names: true)
 
   updated = Player.update_partial(params[:id].to_i, data)
@@ -50,7 +50,7 @@ patch '/players/:id' do
 end
 
 
-delete '/players/:id' do
+delete '/api/v1/players/:id' do
   Player.delete(params[:id].to_i)
   status 204
 end

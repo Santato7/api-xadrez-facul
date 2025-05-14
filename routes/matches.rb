@@ -1,17 +1,17 @@
 require 'json'
 require_relative '../models/match'
 
-get '/matches' do
+get '/api/v1/matches' do
   Match.all.to_json
 end
 
-get '/matches/:id' do
+get '/api/v1/matches/:id' do
   match = Match.find(params[:id].to_i)
   halt 404, { error: 'Match not found' }.to_json unless match
   match.to_json
 end
 
-post '/matches' do
+post '/api/v1/matches' do
   data = JSON.parse(request.body.read, symbolize_names: true)
   match = Match.create(data)
 
@@ -19,7 +19,7 @@ post '/matches' do
   match.to_json
 end
 
-put '/matches/:id' do
+put '/api/v1/matches/:id' do
   data = JSON.parse(request.body.read, symbolize_names: true)
   
   match = Match.update(params[:id].to_i, data)
@@ -30,7 +30,7 @@ put '/matches/:id' do
   { success: true }.to_json
 end
 
-patch '/matches/:id' do
+patch '/api/v1/matches/:id' do
   data = JSON.parse(request.body.read, symbolize_names: true)
 
   updated = Match.update_partial(params[:id].to_i, data)
@@ -43,7 +43,7 @@ patch '/matches/:id' do
 end
 
 
-delete '/matches/:id' do
+delete '/api/v1/matches/:id' do
   Match.delete(params[:id].to_i)
   status 204
 end

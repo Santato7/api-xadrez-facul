@@ -1,6 +1,6 @@
 require_relative '../db/connection'
 
-get '/setup' do
+get '/api/v1/setup' do
   content_type :json
 
   begin
