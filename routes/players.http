@@ -9,11 +9,11 @@ POST http://127.0.0.1:4567/players HTTP/1.1
 content-type: application/json
 
 {
-    "first_name": "first",
+    "first_name": "heitor",
     "last_name": "last",
-    "username": "usuario",
+    "username": "lucass",
     "password": "senha",
-    "email": "a@b.c"
+    "email": "a@b.caaa"
 }
 
 ###
@@ -27,6 +27,15 @@ content-type: application/json
     "username": "usuarioAlterado",
     "password": "senhaAlterada",
     "email": "c@b.a"
+}
+
+###
+
+PATCH http://127.0.0.1:4567/players/1 HTTP/1.1
+content-type: application/json
+
+{
+    "first_name": "first alterado"
 }
 
 ###

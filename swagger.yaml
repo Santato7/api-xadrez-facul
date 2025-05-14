@@ -35,6 +35,12 @@ paths:
       responses:
         "200":
           description: Lista de jogadores
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Player"
     post:
       tags:
         - Players
@@ -92,6 +98,27 @@ paths:
       responses:
         "200":
           description: Jogador atualizado
+    patch:
+      tags:
+        - Players
+      summary: Atualiza parcialmente um jogador
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlayerInput"
+      responses:
+        "200":
+          description: Jogador atualizado parcialmente
+        "404":
+          description: Jogador não encontrado
     delete:
       tags:
         - Players
@@ -114,6 +141,12 @@ paths:
       responses:
         "200":
           description: Lista de partidas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Match"
     post:
       tags:
         - Matches
@@ -163,6 +196,27 @@ paths:
       responses:
         "200":
           description: Partida atualizada
+        "404":
+          description: Partida não encontrada
+    patch:
+      tags:
+        - Matches
+      summary: Atualiza parcialmente uma partida
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatchInput"
+      responses:
+        "200":
+          description: Partida atualizada parcialmente
         "404":
           description: Partida não encontrada
     delete:
@@ -227,8 +281,6 @@ components:
         last_name:
           type: string
         username:
-          type: string
-        password:
           type: string
         email:
           type: string
