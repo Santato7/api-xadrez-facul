@@ -1,0 +1,34 @@
+GET http://127.0.0.1:4567/players HTTP/1.1
+
+###
+
+GET http://127.0.0.1:4567/players/1 HTTP/1.1
+
+###
+POST http://127.0.0.1:4567/players HTTP/1.1
+content-type: application/json
+
+{
+    "first_name": "first",
+    "last_name": "last",
+    "username": "usuario",
+    "password": "senha",
+    "email": "a@b.c"
+}
+
+###
+
+PUT http://127.0.0.1:4567/players/1 HTTP/1.1
+content-type: application/json
+
+{
+    "first_name": "first alterado",
+    "last_name": "last alterado",
+    "username": "usuarioAlterado",
+    "password": "senhaAlterada",
+    "email": "c@b.a"
+}
+
+###
+
+DELETE http://127.0.0.1:4567/players/1 HTTP/1.1
