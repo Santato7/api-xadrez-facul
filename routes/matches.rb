@@ -12,11 +12,19 @@ get '/api/v1/matches/:id' do
 end
 
 post '/api/v1/matches' do
-  data = JSON.parse(request.body.read, symbolize_names: true)
-  match = Match.create(data)
+  begin
+    data = JSON.parse(request.body.read, symbolize_names: true)
+    match = Match.create(data)
 
-  status 201
-  match.to_json
+    status 201
+    match.to_json
+  rescue PG::ForeignKeyViolation => e
+    status 422
+    { error: 'Chave estrangeira inválida. Verifique se os players existem.', detail: e.message }.to_json
+  rescue JSON::ParserError
+    status 400
+    { error: 'JSON inválido' }.to_json
+  end
 end
 
 put '/api/v1/matches/:id' do
