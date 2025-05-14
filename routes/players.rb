@@ -2,27 +2,31 @@ require 'json'
 require_relative '../models/player'
 
 get '/players' do
-  content_type :json
   Player.all.to_json
 end
 
 get '/players/:id' do
-  content_type :json
   player = Player.find(params[:id].to_i)
   halt 404, { error: 'Player not found' }.to_json unless player
   player.to_json
 end
 
 post '/players' do
-  content_type :json
-  data = JSON.parse(request.body.read, symbolize_names: true)
-  player = Player.create(data)
-  status 201
-  player.to_json
+  begin
+    data = JSON.parse(request.body.read, symbolize_names: true)
+    player = Player.create(data)
+    status 201
+    player.to_json
+  rescue PG::UniqueViolation => e
+    status 409
+    { error: e.message }.to_json
+  rescue JSON::ParserError
+    status 400
+    { error: 'JSON inválido' }.to_json
+  end
 end
 
 put '/players/:id' do
-  content_type :json
   data = JSON.parse(request.body.read, symbolize_names: true)
 
   player = Player.update(params[:id].to_i, data)
@@ -34,7 +38,6 @@ put '/players/:id' do
 end
 
 patch '/players/:id' do
-  content_type :json
   data = JSON.parse(request.body.read, symbolize_names: true)
 
   updated = Player.update_partial(params[:id].to_i, data)
