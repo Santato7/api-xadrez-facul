@@ -1,7 +1,6 @@
 require 'json'
 require_relative '../models/match'
 
-# Rotas para partidas
 get '/matches' do
   content_type :json
   Match.all.to_json
