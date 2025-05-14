@@ -1,0 +1,208 @@
+openapi: 3.0.0
+info:
+  title: Game API
+  version: 1.0.0
+  description: API para gerenciamento de jogadores e partidas
+
+servers:
+  - url: http://127.0.0.1:4567
+
+tags:
+  - name: Setup
+    description: Operações de setup do banco de dados
+  - name: Players
+    description: Operações relacionadas a jogadores
+  - name: Matches
+    description: Operações relacionadas a partidas
+
+paths:
+  /setup:
+    get:
+      tags:
+        - Setup
+      summary: Executa o script SQL de setup do banco de dados
+      responses:
+        "200":
+          description: Setup executado com sucesso
+        "500":
+          description: Erro ao executar o setup
+
+  /players:
+    get:
+      tags:
+        - Players
+      summary: Lista todos os jogadores
+      responses:
+        "200":
+          description: Lista de jogadores
+    post:
+      tags:
+        - Players
+      summary: Cria um novo jogador
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlayerInput"
+      responses:
+        "201":
+          description: Jogador criado
+
+  /players/{id}:
+    get:
+      tags:
+        - Players
+      summary: Busca um jogador pelo ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Jogador encontrado
+        "404":
+          description: Jogador não encontrado
+    put:
+      tags:
+        - Players
+      summary: Atualiza um jogador
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlayerInput"
+      responses:
+        "200":
+          description: Jogador atualizado
+    delete:
+      tags:
+        - Players
+      summary: Remove um jogador
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Jogador removido
+
+  /matches:
+    get:
+      tags:
+        - Matches
+      summary: Lista todas as partidas
+      responses:
+        "200":
+          description: Lista de partidas
+    post:
+      tags:
+        - Matches
+      summary: Cria uma nova partida
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatchInput"
+      responses:
+        "201":
+          description: Partida criada
+
+  /matches/{id}:
+    get:
+      tags:
+        - Matches
+      summary: Busca uma partida pelo ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Partida encontrada
+        "404":
+          description: Partida não encontrada
+    put:
+      tags:
+        - Matches
+      summary: Atualiza uma partida
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MatchInput"
+      responses:
+        "200":
+          description: Partida atualizada
+    delete:
+      tags:
+        - Matches
+      summary: Remove uma partida
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Partida removida
+
+components:
+  schemas:
+    PlayerInput:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+      required: [first_name, last_name, username, password, email]
+
+    MatchInput:
+      type: object
+      properties:
+        player_1_id:
+          type: integer
+        player_2_id:
+          type: integer
+        game_mode:
+          type: string
+        is_draw:
+          type: boolean
+        winner_id:
+          type: integer
+        start_datetime:
+          type: string
+          format: date-time
+        end_datetime:
+          type: string
+          format: date-time
+      required: [player_1_id, player_2_id, game_mode, start_datetime]
