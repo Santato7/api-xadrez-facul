@@ -48,6 +48,10 @@ paths:
       responses:
         "201":
           description: Jogador criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Player"
 
   /players/{id}:
     get:
@@ -63,6 +67,10 @@ paths:
       responses:
         "200":
           description: Jogador encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Player"
         "404":
           description: Jogador não encontrado
     put:
@@ -155,6 +163,8 @@ paths:
       responses:
         "200":
           description: Partida atualizada
+        "404":
+          description: Partida não encontrada
     delete:
       tags:
         - Matches
@@ -206,3 +216,41 @@ components:
           type: string
           format: date-time
       required: [player_1_id, player_2_id, game_mode, start_datetime]
+
+    Player:
+      type: object
+      properties:
+        id:
+          type: integer
+        first_name:
+          type: string
+        last_name:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+
+    Match:
+      type: object
+      properties:
+        match_id:
+          type: integer
+        player_1_id:
+          type: integer
+        player_2_id:
+          type: integer
+        game_mode:
+          type: string
+        is_draw:
+          type: boolean
+        winner_id:
+          type: integer
+        start_datetime:
+          type: string
+          format: date-time
+        end_datetime:
+          type: string
+          format: date-time
