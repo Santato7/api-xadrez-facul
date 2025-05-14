@@ -29,6 +29,9 @@ module Match
   end
 
   def self.update(id, data)
+    match = find(id)
+    return nil unless match
+  
     DB.exec_params(
       'UPDATE "MATCH"
        SET "PLAYER_1_ID" = $1,
@@ -51,6 +54,21 @@ module Match
       ]
     )
   end
+
+  def self.update_partial(id, data)
+    return false if data.empty?
+  
+    set_clause = data.keys.map.with_index { |key, i| "\"#{key.to_s.upcase}\" = $#{i + 1}" }.join(', ')
+    values = data.values
+    values << id
+  
+    result = DB.exec_params(
+      "UPDATE \"MATCH\" SET #{set_clause} WHERE \"MATCH_ID\" = $#{values.length}",
+      values
+    )
+    result.cmd_tuples > 0
+  end
+  
 
   def self.delete(id)
     DB.exec_params('DELETE FROM "MATCH" WHERE "MATCH_ID" = $1', [id])

@@ -1,6 +1,8 @@
 require_relative '../db/connection'
 
 get '/setup' do
+  content_type :json
+
   begin
     sql = File.read('./db/setup.sql')
     DB.exec(sql)
