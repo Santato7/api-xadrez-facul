@@ -5,6 +5,7 @@ info:
   description: API para gerenciamento de jogadores e partidas
 
 servers:
+  - url: http://144.33.23.174
   - url: http://127.0.0.1:4567
 
 tags:

@@ -21,7 +21,7 @@ before do
 end
 
 get '/api/v1/docs' do
-  redirect to('/docs/index.html')
+  redirect to('/api/v1/docs/index.html')
 end
 
 get '/api/v1/swagger.yaml' do
